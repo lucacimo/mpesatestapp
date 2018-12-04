@@ -42,7 +42,7 @@ def send_push_request():
         "PartyA": "254792514037",
         "PartyB": "174379",
         "PhoneNumber": "254792514037",
-        "CallBackURL": "https://peternjeru.co.ke/safdaraja/api/callback.php",
+        "CallBackURL": "https://mpesatestapp.herokuapp.com/callback",
         "AccountReference": "account",
         "TransactionDesc": "account"
     }
