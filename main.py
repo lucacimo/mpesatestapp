@@ -13,6 +13,7 @@ app = Flask(__name__)
 def api_message():
     data = request.data
     print(data)
+    return "Success"
 
 
 @app.route('/mpesa', methods = ['POST'])
