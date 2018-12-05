@@ -44,7 +44,7 @@ def submit():
     form = MpesaForm()
     if form.validate_on_submit():
         api_url = "https://mpesatestapp.herokuapp.com/mpesa"
-        phone_number = form.phone.replace("+", "")
+        phone_number = form.phone.data.replace("+", "")
         body = {
                 "phone_number": "{}".format(phone_number),
                 "amount": "{}".format(form.amount.data),
