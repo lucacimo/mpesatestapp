@@ -39,8 +39,10 @@ def api_message():
 
     if (data['Body']['stkCallback']['ResultCode']) == 0:
         print("Payment Successfull")
+        return "Successful"
     else:
         print("Payment Failed, Try again")
+        return "Failed"
 
 
 @app.route('/', methods=['GET', 'POST'])
