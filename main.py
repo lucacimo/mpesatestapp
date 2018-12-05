@@ -36,9 +36,9 @@ class MpesaForm(FlaskForm):
 def api_message():
     data = request.form
 
-    code = data['Body']['stkCallback']['ResultCode']
+    #code = data['Body']['stkCallback']['ResultCode']
 
-    print(code)
+    print(data)
 
 
 @app.route('/', methods=['GET', 'POST'])
