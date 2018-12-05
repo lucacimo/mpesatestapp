@@ -37,13 +37,13 @@ def api_message():
     data = request.data
     data = json.loads(data)
 
-    if (data['Body']['stkCallback']['ResultCode']) == 0:
-        message = "Payment successful, Thank you!"
-        return redirect("/")
+    #if (data['Body']['stkCallback']['ResultCode']) == 0:
+    message = "Payment successful, Thank you!"
+    #    return redirect("/")
 
-    else:
-        message = "Payment Failed, Try again!"
-        return render_template("outcome.html", message=message)
+    #else:
+    #    message = "Payment Failed, Try again!"
+    return render_template("outcome.html", message=message)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -59,7 +59,6 @@ def submit():
         response = requests.post(api_url, json=body)
         return response.text
 
-    print("render form")
     return render_template('mpesaform.html', title='Mpesa Payment', form=form)
 
 
