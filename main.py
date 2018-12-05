@@ -36,9 +36,9 @@ class MpesaForm(FlaskForm):
 def api_message():
     data = request.form
 
-    #code = data['Body']['stkCallback']['ResultCode']
+    code = data['Body']['stkCallback']['ResultCode']
 
-    print(data)
+    print(code)
     return "success"
 
 
