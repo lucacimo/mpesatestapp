@@ -34,9 +34,9 @@ class MpesaForm(FlaskForm):
 
 @app.route('/callback', methods=['POST'])
 def api_message():
-    data = request.form
-
-    print (data['Body'])
+    data = request.data
+    data = json.loads(data)
+    print(data['Body']['stkCallback']['ResultCode'])
     return "Success"
 
 
