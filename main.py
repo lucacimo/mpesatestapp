@@ -54,7 +54,6 @@ def submit():
                 "amount": "{}".format(form.amount.data),
         }
         response = requests.post(api_url, json=body)
-        return response.text
 
     return render_template('mpesaform.html', title='Mpesa Payment', form=form)
 
@@ -94,7 +93,7 @@ def send_push_request():
 
     response = requests.post(api_url, json=body, headers=headers)
 
-    return render_template('spinner.html', title='Loading')
+    #return render_template('spinner.html', title='Loading')
 
 
 if __name__ == '__main__':
