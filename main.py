@@ -39,7 +39,7 @@ def api_message():
 
     if (data['Body']['stkCallback']['ResultCode']) == 0:
         message = "Payment successful, Thank you!"
-        return redirect("https://mpesatestapp.herokuapp.com")
+        return redirect("/")
 
     else:
         message = "Payment Failed, Try again!"
