@@ -38,21 +38,9 @@ def api_message():
     data = json.loads(data)
 
     if (data['Body']['stkCallback']['ResultCode']) == 0:
-        api_url = "https://mpesatestapp.herokuapp.com/display"
-        response = requests.get(api_url)
-        return
-
-    #else:
-    #    message = "Payment Failed, Try again!"
-    #return render_template("outcome.html", message=message)
-
-
-@app.route('/display', methods=['GET'])
-def api_message():
-
-    message = "Payment successful, Thank you!"
-    return render_template("outcome.html", message=message)
-
+        print("Payment Successfull")
+    else:
+        print("Payment Failed, Try again")
 
 
 @app.route('/', methods=['GET', 'POST'])
