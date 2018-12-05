@@ -39,6 +39,7 @@ def api_message():
 
     if (data['Body']['stkCallback']['ResultCode']) == 0:
         message = "Payment successful, Thank you!"
+        print(message)
         return render_template("outcome.html", message=message)
 
     else:
