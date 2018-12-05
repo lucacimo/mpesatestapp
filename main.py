@@ -59,6 +59,7 @@ def submit():
         response = requests.post(api_url, json=body)
         return response.text
 
+    print("render form")
     return render_template('mpesaform.html', title='Mpesa Payment', form=form)
 
 
