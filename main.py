@@ -37,13 +37,22 @@ def api_message():
     data = request.data
     data = json.loads(data)
 
-    #if (data['Body']['stkCallback']['ResultCode']) == 0:
-    message = "Payment successful, Thank you!"
-    #    return redirect("/")
+    if (data['Body']['stkCallback']['ResultCode']) == 0:
+        api_url = "https://mpesatestapp.herokuapp.com/mpesa"
+        response = requests.get(api_url)
+        return 
 
     #else:
     #    message = "Payment Failed, Try again!"
+    #return render_template("outcome.html", message=message)
+
+
+@app.route('/display', methods=['GET'])
+def api_message():
+
+    message = "Payment successful, Thank you!"
     return render_template("outcome.html", message=message)
+
 
 
 @app.route('/', methods=['GET', 'POST'])
