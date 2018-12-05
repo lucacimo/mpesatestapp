@@ -36,13 +36,8 @@ class MpesaForm(FlaskForm):
 def api_message():
     data = request.form
 
-    if data['Body']['stkCallback']['ResultCode'] == 0:
-        print("Payment successful")
-        return "Success"
-    else:
-        print("Payment failed, Try again")
-        return "Failed"
-
+    print (data['Body'])
+    return "Success"
 
 
 @app.route('/', methods=['GET', 'POST'])
