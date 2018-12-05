@@ -39,6 +39,7 @@ def api_message():
     #code = data['Body']['stkCallback']['ResultCode']
 
     print(data)
+    return "success"
 
 
 @app.route('/', methods=['GET', 'POST'])
