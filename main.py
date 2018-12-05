@@ -90,7 +90,7 @@ def send_push_request():
 
     response = requests.post(api_url, json=body, headers=headers)
 
-    return
+    return render_template('spinner.html', title='Loading')
 
 
 if __name__ == '__main__':
