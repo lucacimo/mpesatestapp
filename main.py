@@ -38,9 +38,9 @@ def api_message():
     data = json.loads(data)
 
     if (data['Body']['stkCallback']['ResultCode']) == 0:
-        api_url = "https://mpesatestapp.herokuapp.com/mpesa"
+        api_url = "https://mpesatestapp.herokuapp.com/display"
         response = requests.get(api_url)
-        return 
+        return
 
     #else:
     #    message = "Payment Failed, Try again!"
