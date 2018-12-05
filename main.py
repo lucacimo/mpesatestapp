@@ -1,7 +1,7 @@
 from flask import Flask
-from flask import request, render_template
+from flask import request, render_template, redirect
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, ValidationError
+from wtforms import StringField, SubmitField, IntegerField, ValidationError
 from wtforms.validators import DataRequired, NumberRange
 import phonenumbers
 import requests
@@ -39,8 +39,7 @@ def api_message():
 
     if (data['Body']['stkCallback']['ResultCode']) == 0:
         message = "Payment successful, Thank you!"
-        print(message)
-        return render_template("outcome.html", message=message)
+        return redirect("https://mpesatestapp.herokuapp.com")
 
     else:
         message = "Payment Failed, Try again!"
