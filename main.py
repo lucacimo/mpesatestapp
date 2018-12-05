@@ -35,7 +35,7 @@ class MpesaForm(FlaskForm):
 @app.route('/callback', methods=['POST'])
 def api_message():
     data = request.data
-    print(data)
+    print(type(request.data))
     return "Success"
 
 
@@ -90,7 +90,7 @@ def send_push_request():
 
     response = requests.post(api_url, json=body, headers=headers)
 
-    return response.text
+    return
 
 
 if __name__ == '__main__':
