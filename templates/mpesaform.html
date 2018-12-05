@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Maralal School</title>
+</head>
+<body>
+     <h1>Welcome to Maralal School Mpesa Online Payment System</h1>
+     <h2>Payment details</h2>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.phone.label }}<br>
+            {{ form.phone }}
+        </p>
+        <p>
+            {{ form.amount.label }}<br>
+            {{ form.amount }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+</body>
+</html>
