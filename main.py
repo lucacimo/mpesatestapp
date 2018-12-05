@@ -43,7 +43,7 @@ def api_message():
 def submit():
     form = MpesaForm()
     if form.validate_on_submit():
-        api_url = "http://0.0.0.0:5000/mpesa"
+        api_url = "https://mpesatestapp.herokuapp.com/mpesa"
         phone_number = form.phone.data.replace("+", "")
         body = {
                 "phone_number": "{}".format(phone_number),
@@ -83,7 +83,7 @@ def send_push_request():
         "PartyA": "{}".format(phone_number),
         "PartyB": "174379",
         "PhoneNumber": "{}".format(phone_number),
-        "CallBackURL": "https://mpesatestapp.herokuapp.com/",
+        "CallBackURL": "https://mpesatestapp.herokuapp.com/callback",
         "AccountReference": "account",
         "TransactionDesc": "account"
     }
