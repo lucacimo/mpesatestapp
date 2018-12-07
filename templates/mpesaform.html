@@ -57,11 +57,12 @@
         });
 
         socket.on('completed', function(message) {
-             $('#loader')[0].style.display = "none";
+             $('#processing')[0].style.display = "none";
              $('#msg')[0].innerHTML = message ;
         });
 
          socket.on('processing', function(message) {
+             console.log("processing request")
              $('#loader')[0].style.display = "block"; ;
         });
 
