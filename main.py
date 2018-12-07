@@ -77,7 +77,7 @@ def handle_my_custom_event(message):
     response = requests.post(api_url, json=body, headers=headers)
     response = json.loads(response.text)
     if response['ResponseCode'] == '0':
-        transactions[request.sid] = response['CheckoutRequestID']
+        transactions[response['CheckoutRequestID']] = request.sid
 
     print(transactions)
 
@@ -87,6 +87,7 @@ def api_message():
     data = request.data
     data = json.loads(data)
     print(data)
+    return
 
     # if (data['Body']['stkCallback']['ResultCode']) == 0:
     #     print("Payment Successful")
