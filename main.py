@@ -78,6 +78,7 @@ def handle_my_custom_event(message):
     response = json.loads(response.text)
     if response['ResponseCode'] == '0':
         transactions[response['CheckoutRequestID']] = request.sid
+        socketio.emit('processing', '', room=request.sid)
 
     print(transactions)
 
