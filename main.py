@@ -85,15 +85,18 @@ def handle_my_custom_event(message):
 @app.route('/callback', methods=['POST'])
 def api_message():
     data = json.loads(request.data)
-    checkoutRequestID = data['Body']['stkCallback']['CheckoutRequestID']
+    checkout_request_id = data['Body']['stkCallback']['CheckoutRequestID']
+    result = data['Body']['stkCallback']['ResultCode']
+    print(checkout_request_id)
+    print(result)
 
-    if data['Body']['stkCallback']['ResultCode'] == "0":
-        message = "The Payment with transaction Id " + "{}".format(checkoutRequestID) + " was successful"
+    if result == "0":
+        message = "The Payment with transaction Id " + "{}".format(checkout_request_id) + " was successful"
 
     else:
-        message = "The Payment with transaction Id " + "{}".format(checkoutRequestID) + " failed"
+        message = "The Payment with transaction Id " + "{}".format(checkout_request_id) + " failed"
 
-    sid = transactions[checkoutRequestID]
+    sid = transactions[checkout_request_id]
     socketio.emit("completed", message, room=sid)
 
 
