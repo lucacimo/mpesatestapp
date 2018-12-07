@@ -90,11 +90,11 @@ def api_message():
     print(checkout_request_id)
     print(result)
 
-    if result == "0":
+    if result == 0:
         message = "The Payment with transaction Id " + "{}".format(checkout_request_id) + " was successful"
 
     else:
-        message = "The Payment with transaction Id " + "{}".format(checkout_request_id) + " failed"
+        message = "The Payment with transaction Id " + "{}".format(checkout_request_id) + " failed, Try again"
 
     sid = transactions[checkout_request_id]
     socketio.emit("completed", message, room=sid)
