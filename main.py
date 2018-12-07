@@ -88,12 +88,10 @@ def api_message():
     checkoutRequestID = data['Body']['stkCallback']['CheckoutRequestID']
 
     if data['Body']['stkCallback']['ResultCode'] == "0":
-        message = "The Payment with transaction Id" + "{}".format(checkoutRequestID) + \
-                  +"was successful"
+        message = "The Payment with transaction Id " + "{}".format(checkoutRequestID) + " was successful"
 
     else:
-        message = "The Payment with transaction Id" + "{}".format(checkoutRequestID) + \
-                  +"failed"
+        message = "The Payment with transaction Id " + "{}".format(checkoutRequestID) + " failed"
 
     sid = transactions[checkoutRequestID]
     socketio.emit("completed", message, room=sid)
