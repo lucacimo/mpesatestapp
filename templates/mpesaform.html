@@ -21,12 +21,16 @@
         </p>
         <p>{{ form.submit() }}</p>
     </form>
+     <p id ="msg"></p>
+     
     <script type="text/javascript" charset="utf-8">
-        console.log('before connection')
         var socket = io.connect('https://mpesatestapp.herokuapp.com/');
-        console.log('after connection')
         socket.on('connect', function() {
             socket.emit('connection', {data: 'I\'m connected!'});
+        });
+
+        socket.on('completed', function(message) {
+             $('#msg')[0].innerHTML = message ;
         });
 
         $("#form").submit(function(e) {

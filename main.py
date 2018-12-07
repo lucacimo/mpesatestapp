@@ -84,59 +84,25 @@ def handle_my_custom_event(message):
 
 @app.route('/callback', methods=['POST'])
 def api_message():
-    data = request.data
-    data = json.loads(data)
-    print(data)
-    return
+    data = json.loads(request.data)
+    checkoutRequestID = data['Body']['stkCallback']['CheckoutRequestID']
 
-    # if (data['Body']['stkCallback']['ResultCode']) == 0:
-    #     print("Payment Successful")
-    #     return "Successful"
-    # else:
-    #     print("Payment Failed, Try again")
-    #     return "Failed"
+    if data['Body']['stkCallback']['ResultCode'] == "0":
+        message = "The Payment with transaction Id" + "{}".format(checkoutRequestID) + \
+                  +"was successful"
+
+    else:
+        message = "The Payment with transaction Id" + "{}".format(checkoutRequestID) + \
+                  +"failed"
+
+    sid = transactions[checkoutRequestID]
+    socketio.emit("completed", message, room=sid)
 
 
 @app.route('/', methods=['GET', 'POST'])
 def submit():
     form = MpesaForm()
     return render_template('mpesaform.html', title='Mpesa Payment', form=form)
-
-
-@app.route('/mpesa', methods = ['POST'])
-def send_push_request():
-    phone_number = request.json.get('phone_number').replace("+", "")
-    amount = request.json.get('amount')
-
-    timestamp = str(time.strftime("%Y%m%d%H%M%S"))
-    passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
-
-    password = base64.b64encode(bytes(u'174379' + passkey + timestamp,'UTF-8')).decode('UTF-8')
-
-    consumer_key = "FlYVIVkqtno6joTyU045VDDChM39eWFq"
-    consumer_secret = "9NuFmdRGLS1ZDAEk"
-    api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
-
-    y = json.loads(requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret)).text)
-
-    access_token = "{}".format(y['access_token'])
-    api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-    headers = {"Authorization": "Bearer {}".format(access_token)}
-    body = {
-        "BusinessShortCode": "174379",
-        "Password": "{}".format(password),
-        "Timestamp": "{}".format(timestamp),
-        "TransactionType": "CustomerPayBillOnline",
-        "Amount": "{}".format(amount),
-        "PartyA": "{}".format(phone_number),
-        "PartyB": "174379",
-        "PhoneNumber": "{}".format(phone_number),
-        "CallBackURL": "https://mpesatestapp.herokuapp.com/callback",
-        "AccountReference": "account",
-        "TransactionDesc": "account"
-    }
-
-    response = requests.post(api_url, json=body, headers=headers)
 
 
 if __name__ == '__main__':
