@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Maralal School</title>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
      <h1>Welcome to Maralal School Mpesa Online Payment System</h1>
      <h2>Payment details</h2>
-    <form action="" method="post" novalidate>
+    <form action="" id ="form" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
             {{ form.phone.label }}<br>
@@ -19,5 +21,23 @@
         </p>
         <p>{{ form.submit() }}</p>
     </form>
+    <script type="text/javascript" charset="utf-8">
+        console.log('before connection')
+        var socket = io.connect('https://mpesatestapp.herokuapp.com/');
+        console.log('after connection')
+        socket.on('connect', function() {
+            socket.emit('connection', {data: 'I\'m connected!'});
+        });
+
+        $("#form").submit(function(e) {
+            e.preventDefault();
+            values = $(this);
+            console.log(values);
+            json= JSON.stringify({"phone_number" : values[0][1].value, "amount": values[0][2].value });
+            console.log(json);
+
+            socket.emit('submission', json);
+        });
+    </script>
 </body>
 </html>
