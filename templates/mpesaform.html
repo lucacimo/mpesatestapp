@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Maralal School</title>
+    <title>Safaricom STK Push Demo</title>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -27,33 +27,45 @@
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
         }
-        .half{
-            width:50%;
+
+        .container {
+            margin-right: auto;
+            margin-left: auto;
         }
     </style>
 </head>
 <body>
-     <h1>Welcome to Maralal School Mpesa Online Payment System</h1>
-     <h2>Payment details</h2>
-    <form action="" id ="form" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.phone.label }}<br>
-            {{ form.phone }}
-        </p>
-        <p>
-            {{ form.amount.label }}<br>
-            {{ form.amount }}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
-     <div id="processing">
-         <h2>Processing your request</h2>
-         <div class="loader" id="loader"></div>
-     </div>
-     <p id ="msg"></p>
-</form>
+     <div class="container">
+         <h1>Safaricom STK Push Demo</h1>
+         <div class="row">
+             <div class="col-md-6">
+                <form action="" id ="form" method="post">
+                    <div class="form-group">
+                        <label for="inputPhoneNumber">Phone Number</label>
+                        <input type="text" minlength="9" maxlength="13" pattern="^(?:254|\+254|0)?(7(?:(?:[129][0-9])|(?:0[0-8])|(4[0-1]))[0-9]{6})$"
+                               title="Input a Valid Safaricom Number. Sample formats (+254729******, 254729******, 0729******)" required=""
+                               class="form-control" name="phone" id="phone" value="" placeholder="+254XXXXXXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAmount">Amount</label>
+                        <input type="number" class="form-control" name="amount" id="amount"
+                               placeholder="(KHS 0-70000)" min="0" max="700000" step="1" required/>
+                    </div>
+                    <input type="submit" class="btn btn-primary">
+                </form>
 
+                 <br>
+                 <div id="processing">
+                     <h3>Processing your request</h3>
+                     <div class="loader" id="loader"></div>
+                 </div>
+             </div>
+             <div class="col-md-4">
+                 <img src="https://remtech.org/wp-content/uploads/2017/05/RT-safaricom-m-pesa.jpg" alt="mpesa">
+             </div>
+         </div>
+     </div>
+    <p id="msg"></p>
     <script type="text/javascript" charset="utf-8">
         $('#processing')[0].style.display = "none";
         $('#msg')[0].style.display = "none" ;
@@ -72,14 +84,12 @@
              $('#processing')[0].style.display = "block"; ;
         });
 
-
-
         $("#form").submit(function(e) {
             $('#msg')[0].style.display = "none" ;
             e.preventDefault();
             values = $(this);
             console.log(values);
-            json= JSON.stringify({"phone_number" : values[0][1].value, "amount": values[0][2].value });
+            json= JSON.stringify({"phone_number" : values[0][0].value, "amount": values[0][1].value });
             console.log(json);
 
             socket.emit('submission', json);

@@ -1,9 +1,6 @@
 from flask import Flask
-from flask import request, render_template, session
-from flask_wtf import FlaskForm
+from flask import request, render_template
 from flask_socketio import SocketIO
-from wtforms import StringField, SubmitField, IntegerField, ValidationError
-from wtforms.validators import DataRequired, NumberRange
 import phonenumbers
 import requests
 from requests.auth import HTTPBasicAuth
@@ -18,22 +15,14 @@ socketio = SocketIO(app)
 transactions = {}
 
 
-def validate_phone(form, field):
-    number = phonenumbers.parse(field.data)
-    if not phonenumbers.is_valid_number(number) and number.country_code != "254":
-        raise ValidationError('The phone number must be in the format 254+XXXXXXXXX')
+def validate_phone(number):
+    if number.startswith("+254"):
+        number = number.replace("+", "")
 
+    elif number.startswith("07"):
+        number = "254" + number.replace("0", "", 1)
 
-class MpesaForm(FlaskForm):
-    phone = StringField('Phone number', validators=[DataRequired(), validate_phone],
-                        render_kw={"placeholder": "+254XXXXXXXX"})
-
-    amount = IntegerField('Amount (KES)', validators=[DataRequired(),
-                                                      NumberRange(min=0, max=70000,
-                                                      message="You can transfer up to 70000 KES ")],
-                          render_kw={"placeholder": "(KHS 0-70000)"})
-
-    submit = SubmitField('Submit')
+    return number
 
 
 @socketio.on('connection')
@@ -44,7 +33,8 @@ def handle_my_custom_event(message):
 @socketio.on('submission')
 def handle_my_custom_event(message):
     message = json.loads(message)
-    phone_number = message['phone_number'].replace("+", "")
+
+    phone_number = validate_phone(message['phone_number'])
     amount = message['amount']
     timestamp = str(time.strftime("%Y%m%d%H%M%S"))
     passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
@@ -76,11 +66,10 @@ def handle_my_custom_event(message):
 
     response = requests.post(api_url, json=body, headers=headers)
     response = json.loads(response.text)
+
     if response['ResponseCode'] == '0':
         transactions[response['CheckoutRequestID']] = request.sid
         socketio.emit('processing', '', room=request.sid)
-
-    print(transactions)
 
 
 @app.route('/callback', methods=['POST'])
@@ -92,10 +81,10 @@ def api_message():
     print(result)
 
     if result == 0:
-        message = "The Payment with transaction Id " + "{}".format(checkout_request_id) + " was successful"
+        message = "The Payment to Safaricom test account was successful"
 
     else:
-        message = "The Payment with transaction Id " + "{}".format(checkout_request_id) + " failed, Try again"
+        message = "The Payment to Safaricom test account failed, Try again"
 
     sid = transactions[checkout_request_id]
     socketio.emit("completed", message, room=sid)
@@ -103,8 +92,7 @@ def api_message():
 
 @app.route('/', methods=['GET', 'POST'])
 def submit():
-    form = MpesaForm()
-    return render_template('mpesaform.html', title='Mpesa Payment', form=form)
+    return render_template('mpesaform.html')
 
 
 if __name__ == '__main__':
