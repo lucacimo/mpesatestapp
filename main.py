@@ -77,8 +77,6 @@ def api_message():
     data = json.loads(request.data)
     checkout_request_id = data['Body']['stkCallback']['CheckoutRequestID']
     result = data['Body']['stkCallback']['ResultCode']
-    print(checkout_request_id)
-    print(result)
 
     if result == 0:
         message = "The Payment to Safaricom test account was successful"
@@ -88,6 +86,8 @@ def api_message():
 
     sid = transactions[checkout_request_id]
     socketio.emit("completed", message, room=sid)
+
+    return request.data
 
 
 @app.route('/', methods=['GET', 'POST'])
