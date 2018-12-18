@@ -19,8 +19,11 @@ def validate_phone(number):
     if number.startswith("+254"):
         number = number.replace("+", "")
 
-    elif number.startswith("07") or number.startswith("7"):
+    elif number.startswith("07"):
         number = "254" + number.replace("0", "", 1)
+
+    elif number.startswith("7"):
+        number= "254" + number
 
     return number
 
